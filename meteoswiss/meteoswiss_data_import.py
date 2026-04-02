@@ -50,11 +50,11 @@ def get_station_url(station: str,
     Examples
     --------
     >>> get_station_url("BER")
-    'https://data.geo.admin.ch/ch.meteoschweiz.ogd-smn/ch.meteoschweiz.ogd-smn_BER_t_now.csv'
+    'https://data.geo.admin.ch/ch.meteoschweiz.ogd-smn/ber/ogd-smn_BER_t_now.csv'
     >>> get_station_url("LUG", granularity="daily", period="historical")
-    'https://data.geo.admin.ch/ch.meteoschweiz.ogd-smn/ch.meteoschweiz.ogd-smn_LUG_d_historical.csv'
+    'https://data.geo.admin.ch/ch.meteoschweiz.ogd-smn/lug/ogd-smn_LUG_d_historical.csv'
     """
-    station = station.upper()
+    station = station.lower()
 
     if granularity not in GRANULARITY_MAP:
         raise ValueError(f"granularity must be one of {list(GRANULARITY_MAP)}, got {granularity!r}")
@@ -69,7 +69,7 @@ def get_station_url(station: str,
     if period not in PERIOD_MAP:
         raise ValueError(f"period must be one of {list(PERIOD_MAP)}, got {period!r}")
 
-    filename = f"ch.meteoschweiz.ogd-smn_{station}_{gran_code}_{period}.csv"
+    filename = f"{station}/ogd-smn_{station}_{gran_code}_{period}.csv"
     return f"{BASE_URL}/{filename}"
 
 
