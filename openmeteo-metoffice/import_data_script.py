@@ -3,8 +3,10 @@ import openmeteo_requests
 import pandas as pd
 import requests_cache
 from retry_requests import retry
+from datetime import time, datetime
 
 from open_meteo_import import * 
+from open_meteo_plot import *
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -21,7 +23,8 @@ params = {
 					   "rain_sum",     "precipitation_sum"],
 	"hourly"        : ["temperature_2m",  "relative_humidity_2m", "precipitation", 
 					   "rain", "showers", "weather_code",         "cloud_cover", 
-					   "direct_radiation", "diffuse_radiation", "temperature_20m"],
+					   "direct_radiation", "diffuse_radiation", "temperature_20m",
+					   "wind_speed_10m", "is_day"],
 	"models"        : "ukmo_seamless",
 	"forecast_hours": 24,
 	"past_hours"    : 24,
@@ -41,3 +44,10 @@ print(df_daily.head())
 #access columns by name:
 print(df_hourly["temperature_2m"])
 print(f"other keys: {df_hourly.keys()}")
+
+print(df_hourly["date"])
+
+plot_temperature_and_precipitation(df_hourly)
+plot_temperature_and_humidity(df_hourly)
+plot_wind_and_solar_irradiation_correlation(df_hourly)
+plot_solar_irradiation_and_cloud_coverage_correlation(df_hourly)
